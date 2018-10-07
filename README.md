@@ -33,3 +33,22 @@ Start with:
 ```sh
 docker run -it -p 5053:5053/udp vahempio/dns-ipy
 ```
+
+## Docker-compose
+docker-compose.yml example:
+```sh
+version: "2"
+
+services:
+  dns-ipy:
+    image: vahempio/dns-ipy
+    restart: on-failure
+    ports:
+      - "53:5053/tcp"
+      - "53:5053/udp"
+
+    # For logs:
+    stdin_open: true
+    tty: true
+```
+
