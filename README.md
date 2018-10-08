@@ -1,4 +1,9 @@
 # DNS-IPy
+https://github.com/vahempio/dns-ipy
+
+https://hub.docker.com/r/vahempio/dns-ipy
+
+MIT license
 
 ## Short brief
 This is a tiny DNS demonstrator to dynamicaly respond from a A query to an IP address.
@@ -51,4 +56,12 @@ services:
     stdin_open: true
     tty: true
 ```
+### Use it on the field
+The example scenario supposes that you have a domain name (we use `foo.bar` here) and your own server (like a VPS) with a A record like `vps.foo.bar`.
+- Deploy the container on your server, by copying the `docker-compose.yml` and start it with `docker-compose up -d`.
+- On your computer, try the resolution by forcing the address of the server: `nslookup 1-2-3-4.foo.bar vps.foo.bar`. Result should be `1.2.3.4`.
+- Create a CNAME entry in your DNS records like `ns.foo.bar IN CNAME vps.foo.bar.` to have a clean situation.
+- Create a NS entry in your DNS records like `hash.foo.bar IN NS ns.foo.bar.` to delegate the subzone to your server.
+- Enjoy and test it, with `nslookup 1-2-3-4.youruid.hash.foo.bar`. Result should be `1.2.3.4`.
 
+Now, you can create a https wildcard for the domain `*.youruid.hash.foo.bar` with a challenge/response through DNS with Let's Encrypt, for example. With it, your local server can have a verified https certificate with a local IP only, and this DNS-IPy will route to your local IP address.
